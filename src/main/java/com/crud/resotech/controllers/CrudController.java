@@ -4,13 +4,12 @@ import com.crud.resotech.models.ToDoModel;
 import com.crud.resotech.repository.ToDoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+
 import java.util.List;
 
 @RestController
@@ -47,6 +46,12 @@ public class CrudController {
     }
 
 
+
+    @GetMapping(value = "/user/getsingle/{id}")
+    public ToDoModel getSingleData(@PathVariable int id){
+        return repo.findById(id).get();
+    }
+
     @PatchMapping("/user/update")
     public ResponseEntity<String> update(@RequestBody ToDoModel input){
         try{
@@ -66,6 +71,7 @@ public class CrudController {
             return ResponseEntity.status(200).body("Deleted Sucessfully");
         }
         catch (Exception e){
+
             return ResponseEntity.status(401).body(e.getMessage());
         }
     }

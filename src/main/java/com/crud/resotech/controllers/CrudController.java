@@ -5,12 +5,14 @@ import com.crud.resotech.repository.ToDoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -41,7 +43,8 @@ public class CrudController {
     }
 
     @GetMapping(value = "/user/getalltasks")
-    public List<ToDoModel> getall(){
+    public List<ToDoModel> getall(@RequestHeader Map<String,String> hm){
+        System.out.println(hm);
         return repo.findAll();
     }
 
@@ -77,7 +80,8 @@ public class CrudController {
     }
 
     @GetMapping("/user/get/{status}")
-    public List<ToDoModel> findByStatus(@PathVariable String status){
+    public List<ToDoModel> findByStatus(@PathVariable String status,@RequestHeader Map<String,String> hm){
+        System.out.println(hm);
         return repo.findByStatus(status);
     }
 }

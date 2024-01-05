@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface ToDoRepository extends JpaRepository<ToDoModel,Integer> {
 
-    @Query("select b from ToDoModel b where b.status=:status")
-    public List<ToDoModel> findByStatus(String status);
+    @Query("select b from ToDoModel b where b.status=:status and b.createdby =:id")
+    public List<ToDoModel> findByStatus(String status,int id);
 
 }

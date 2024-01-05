@@ -31,7 +31,7 @@ public class CrudController {
     {
 
         try{
-        ToDoModel model= new ToDoModel(input.getName(),input.getStart(),input.getEnd(),input.getStatus());
+        ToDoModel model= new ToDoModel(input.getName(),input.getStart(),input.getEnd(),input.getStatus(),input.getCreatedby());
         repo.save(model);
 
         return new ResponseEntity<>("Task Created",HttpStatus.CREATED);
@@ -43,8 +43,8 @@ public class CrudController {
     }
 
     @GetMapping(value = "/user/getalltasks")
-    public List<ToDoModel> getall(@RequestHeader Map<String,String> hm){
-        System.out.println(hm);
+    public List<ToDoModel> getall(){
+
         return repo.findAll();
     }
 
@@ -79,9 +79,9 @@ public class CrudController {
         }
     }
 
-    @GetMapping("/user/get/{status}")
-    public List<ToDoModel> findByStatus(@PathVariable String status,@RequestHeader Map<String,String> hm){
-        System.out.println(hm);
-        return repo.findByStatus(status);
+    @GetMapping("/user/get")
+    public List<ToDoModel> findByStatus(@RequestParam int id,@RequestParam String status){
+
+        return repo.findByStatus(status,id);
     }
 }

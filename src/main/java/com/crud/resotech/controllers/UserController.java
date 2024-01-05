@@ -6,12 +6,10 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -27,11 +25,15 @@ public class UserController {
 
         UserModel data = new UserModel(requestData.getUsername(),requestData.getPassword(),requestData.getEmail());
         data.setRoles("user");
+
+        repo.save(data);
         return ResponseEntity.status(201).body("User Created");
     }
 
     @PostMapping("/login/signin")
     public ResponseEntity<Object> signin(@RequestBody UserModel requestData){
+        try{
+
         UserModel FoundUserData = repo.findByUsername(requestData.getUsername());
         if(FoundUserData==null){
             return ResponseEntity.status(400).body("No User Found With That User Name");
@@ -41,8 +43,20 @@ public class UserController {
             return ResponseEntity.status(400).body("In Valid Password");
 
         }
-        return ResponseEntity.status(200).body(FoundUserData);
+            return ResponseEntity.status(200).body(FoundUserData);
 
+        }
+        catch (Exception e){
+            return ResponseEntity.status(400).body("Bad Request");
+        }
+
+
+    }
+
+    @GetMapping("/login/test")
+    public String test(@RequestParam String id,@RequestParam String status){
+        System.out.println(id+" "+status);
+        return "ok";
     }
 
 }

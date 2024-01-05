@@ -28,11 +28,18 @@ public class ToDoModel {
     @NotBlank(message = "Status Should not empty")
     String status;
 
-    public ToDoModel(String name, String start, String end, String status) {
+
+    int createdby;
+
+
+
+
+    public ToDoModel(String name, String start, String end, String status,int createdby) {
         this.name = name;
         this.start = start;
         this.end = end;
         this.status = status;
+        this.createdby=createdby;
     }
 
     public int getId() {
@@ -73,6 +80,14 @@ public class ToDoModel {
 
     public void setEnd(String end) {
         this.end = end;
+    }
+
+    public int getCreatedby() {
+        return createdby;
+    }
+
+    public void setCreatedby(int createdby) {
+        this.createdby = createdby;
     }
 
     public ToDoModel() {
